@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { sendContact } from "../../api/posts";
+import { sendContact, type ContactPayload } from "../../api/posts";
 
 export const Contact = () => {
   const [formValues, setFormValues] = useState({
@@ -72,7 +72,12 @@ export const Contact = () => {
     if (!validate()) return;
     try {
       setIsSubmitting(true);
-      await sendContact(formValues);
+      const payload: ContactPayload = {
+        name: formValues.name,
+        email: formValues.email,
+        content: formValues.content,
+      };
+      await sendContact(payload);
       alert("送信しました。");
       handleClear();
     } catch (e) {
